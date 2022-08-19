@@ -3,3 +3,7 @@
 
 #ignore notes
 server/notes/*.json
+
+#ignore modules
+
+server/node_modules
