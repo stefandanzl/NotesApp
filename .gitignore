@@ -2,4 +2,4 @@
 *.log
 
 #ignore notes
-server/notes/*
+server/notes/*.json
