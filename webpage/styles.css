@@ -1,0 +1,257 @@
+body {
+    background: #272727;
+    margin: none;
+    border: none;
+    padding: none;
+    overflow-x: hidden;
+    
+    }
+    
+#textfield{
+    font-family: Arial, Helvetica, sans-serif;
+    color: #e6e6e6;
+    background: #272727;
+    border: none;
+    outline: none;
+    font-size: 2em;
+
+    resize: none;
+    
+
+
+
+    height:100%;
+    width:100%;
+
+    box-sizing: border-box; 
+    -webkit-box-sizing: border-box;
+    
+    
+    direction: ltr; 
+    padding-top: 50px; 
+    max-width: 750px; 
+    padding-bottom: 469px; 
+    max-height: 50%;
+    
+
+    }
+
+a{
+font-family: Arial, Helvetica, sans-serif;
+
+}
+
+
+#formfield{
+
+   
+    
+
+
+    word-wrap: break-word;
+/*
+    padding:25px;
+    padding-top:50px;
+    padding-bottom:150px;
+    padding-bottom: 300px;
+
+    */
+    margin:auto;
+    
+    
+    /*
+    max-width:750px;
+    min-width:100px;
+    
+    min-height:200px;
+    
+     */
+        cursor:text;
+    
+
+        overflow-y:auto;
+        overflow-x:hidden;
+    
+}
+
+
+#area{
+margin: auto;
+width: 100%;
+height: 70vh;
+margin-top: 0px;
+ 
+
+
+max-height: 170vh;
+overflow: auto;
+overflow-y: scroll;
+
+display: flex;
+justify-content: center;
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #272727;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #555;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+
+
+
+
+
+
+
+
+area::-webkit-scrollbar {
+    width: 1em;
+}
+
+area::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+area::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+
+p{
+    color: white;
+    z-index: 5;
+
+}
+
+
+
+
+
+
+
+
+#footer{
+
+  /* display: block;*/
+   /*margin-left: auto;
+   margin-right: auto;
+   */
+   width: 100%;
+   position: fixed;
+   
+   bottom: 10px;
+
+   display: flex;
+   align-content: stretch;
+   justify-content: center;
+   flex-direction: column;
+
+   
+}
+
+
+
+#alert_text_area{
+
+
+   /* display: block;
+   margin-left: auto;
+   margin-right: auto;   
+   position: absolute;
+   
+   bottom: 71px;
+   */
+   width: 100%;
+
+
+   display: flex;
+justify-content:flex-start;
+align-items: center
+
+}
+
+
+#alert_text{
+  /*
+     
+          position:absolute;
+          margin:0 auto;
+          clear:left;
+          height:10%;
+          z-index: 10;
+          text-align:center;/* Add This
+          color : white;
+          background-color: limegreen;
+          width: 50%;
+          
+  
+          border-radius: 5px;
+  
+          */
+          margin: auto;
+          color: rgb(102, 141, 99);
+          text-align: center;
+          font-family:Arial, Helvetica, sans-serif;
+          height: 40px;
+          font-size: 20px;
+          bottom: 2px;
+          /*
+          position: fixed;
+          bottom: 80px;
+          display:flex;
+          */
+  }
+  
+
+
+#buttons {
+
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  }
+  
+
+
+ #button {
+  background-color: #555;
+  border: none;
+  color: #e6e6e6;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  
+}

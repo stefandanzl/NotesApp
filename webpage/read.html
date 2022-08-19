@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" type="image/x-icon" href="icon.ico">
+    <title>Notes Read</title>
+    <style>
+      html {
+        font-size: 20px;
+        line-height: 1.6;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      }
+      body {
+        /* padding-bottom: 200px; */
+      }
+      header {
+        margin: 1rem 3rem 3rem 3rem;
+      }
+      header h1 {
+        font-size: 3rem;
+        line-height: 1.2;
+        font-weight: 300;
+        color: #999;
+      }
+      header h2 {
+        font-size: 1.5rem;
+        line-height: 1.2;
+        font-weight: 300;
+        color: cornflowerblue;
+      }
+      main {
+        
+
+  margin: auto;
+  width: 50%;
+  border: none; /*3px solid green;*/
+  padding: 10px;
+  text-align: left;
+
+        
+        /*display: grid;
+        /*grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 1rem;
+        width: 80vw;
+        margin: 3rem 3rem;
+        grid-template-rows: auto;*/
+
+      }
+      main figure {
+      }
+      main figcaption {
+        font-size: 1rem;
+        font-family: inherit;
+      }
+      main img {
+        /*width: 100%;
+        height: auto;
+        max-width: 100%;*/
+        height: 100%;
+      }
+      footer {
+        background-color: #aaa;
+        color: #333;
+        font-size: 1rem;
+        font-weight: 300;
+        padding: 1rem 3rem 3rem 3rem;
+        margin-top: 0;
+        scroll-behavior: smooth;
+        /*display: none;*/
+    visibility: hidden;
+      }
+
+      p{
+
+        color: #aaa;
+
+      }
+
+      h3, #entry-date{
+        color: #fff;
+		position: sticky;
+		top: 0;
+		font-size: 2em;
+		font-weight: strong;
+      }
+
+      h6{
+        text-align: right;
+		color: #fff;
+
+      }
+
+    </style>
+
+<link href="styles.css" rel="stylesheet" type="text/css" />
+
+  </head>
+  <body>
+   <!----<header>
+      <h1>Read Nots</h1>
+      <h2>Loading images gradually as needed</h2>
+    </header>-->
+    <main>
+      <!-- images will be loaded here with figure and figcaption -->
+    </main>
+    <footer>
+      <p>The Footer. &copy; 2022 Danzl IT.</p>
+    </footer>
+    <script>
+      //var now = new Date();
+      //var last_datum = now.getTime();
+      var last_datum;
+      const URL =
+        "https://api.danzl.it/readnotes";
+      document.addEventListener("DOMContentLoaded", () => {
+        //set up the IntersectionObserver to load more images if the footer is visible.
+        //URL - https://gist.githubusercontent.com/prof3ssorSt3v3/1944e7ba7ffb62fe771c51764f7977a4/raw/c58a342ab149fbbb9bb19c94e278d64702833270/infinite.json
+        let options = {
+          root: null,
+          rootMargins: "0px",
+          threshold: 0.5
+        };
+        const observer = new IntersectionObserver(handleIntersect, options);
+        observer.observe(document.querySelector("footer"));
+        //an initial load of some data
+        //getData(last_datum);
+      });
+
+      function handleIntersect(entries) {
+        if (entries[0].isIntersecting) {
+          console.warn("something is intersecting with the viewport");
+          getData(last_datum);
+        }
+      }
+      function getData(last_datum) {
+        let main = document.querySelector("main");
+        console.log("fetch some JSON data");
+
+        // if (!last_datum){
+
+        //   var now = new Date();
+        //   var last_datum = undefined;//now.getTime();
+        //   window.last_datum = last_datum;
+        // }
+        console.log(last_datum);
+        fetch(URL, {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({last_datum: last_datum, str: 'Some string: &=&'})
+}).then(res => res.json())
+  // .then(res => console.log(res));
+
+
+  
+
+
+  //       fetch(URL)
+  //         .then(response => response.json())
+          .then(data => {
+            // data.items[].img, data.items[].name
+            console.log("DATA",data);
+            if (data.array){
+            last_datum = data.array[data.array.length-1].datum;
+            window.last_datum = last_datum;
+            
+            console.log(last_datum);
+            data.array.forEach(item => {
+              let entry = document.createElement("div");
+              let entry_date = document.createElement("div"); //h3
+			  entry_date.setAttribute("id","entry-date");
+              let entry_time = document.createElement("h6");
+              let entry_text = document.createElement("p");
+              //img.src = item.img;
+              //img.alt = item.name;
+              var datum = new Date(item.datum);
+
+              const week = ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
+              var week_day = week[datum.getDay()];
+              
+              
+              
+              const months = ["Jänner","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+              var month = months[datum.getMonth()];
+
+              
+
+              var date= week_day + ", "+ datum.getDate() + ". "+month +" "+datum.getFullYear();//item.datum;
+
+
+              if (window.last_date != date || !window.last_date){
+              entry_date.textContent = date;
+              entry.appendChild(entry_date);
+              entry.style.borderTop = "3px solid #bbb";
+              }
+              else{
+                entry.style.borderTop = "1px solid #bbb";
+
+              }
+              window.last_date = date;
+
+              var hour = datum.getHours();
+              hour >= 10 ? hour = hour : hour = "0"+ hour.toString();
+
+              var min = datum.getMinutes();
+              min >= 10 ? min = min : min = "0" + min.toString();
+
+              var sec = datum.getSeconds();
+              sec >= 10 ? sec = sec : sec = "0"+sec.toString();
+
+              var time =  hour + ":" +min + ":" + sec +"   ";
+
+              entry_time.textContent = time;
+              var raw_text = item.text;
+              
+              if (raw_text){
+              var br_text= raw_text.replace(/(\r\n|\r|\n)/g, '<br>');
+              }
+              entry_text.innerHTML = br_text;
+              
+
+              entry.appendChild(entry_time);
+              entry.appendChild(entry_text);
+              
+              main.appendChild(entry);
+            });}
+          });
+
+
+          
+      }
+    </script>
+  </body>
+</html>
