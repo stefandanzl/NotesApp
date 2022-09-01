@@ -232,7 +232,7 @@ app.post("/writenotes", function (req, res) {
 
 
   const nDate = new Date().toLocaleString('en-US', {
-   timeZone: 'Asia/Calcutta'
+   timeZone: 'Europe/Vienna'
  });
  
  console.log(nDate);
@@ -301,6 +301,79 @@ app.post("/writenotes", function (req, res) {
   //console.log( "data: ",data );
   res.end("Time: " + hour + ":" + minute + ":" + second); //JSON.stringify(data));
 });
+
+
+
+
+
+
+
+app.post("/saveorganizer", function (req, res) {
+
+  var data = req.body;
+
+  const path = "./organizer.json";
+
+  var output = new Object();
+
+  output.todos = data.todos;
+  output.calendar = data.calendar;
+
+  var jsonObjString = JSON.stringify(output);
+
+  try {
+
+        fs.writeFile(path, jsonObjString, function (err) {
+          if (err) throw err;
+          console.log("File is appended successfully.\n\n\n\n");
+        });
+      }
+catch (err) {
+    console.error(err);
+  }
+
+  //console.log( "data: ",data );
+  res.end("Organizer saved!"); //JSON.stringify(data));
+});
+
+
+
+
+
+
+
+app.post("/getorganizer", function (req, res) {
+
+  const path = "./organizer.json";
+
+  var output = new Object();
+
+
+  try {
+    if (fs.existsSync(path)) {
+
+      var data = fs.readFileSync(path, { encoding: "utf8", flag: "r" });
+
+        var content = JSON.parse(data);
+        
+        output.todos = content.todos;
+        output.calendar = content.calendar;
+
+    } 
+  } catch (err) {
+    console.error(err);
+  }
+
+
+  // output.datum = now.getTime();
+
+  res.end(JSON.stringify(output)); 
+});
+
+
+
+
+
 
 var server = app.listen(8081, function () {
   var host = server.address().address;

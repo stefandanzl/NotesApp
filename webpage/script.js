@@ -24,18 +24,24 @@ function show_alert_text(message){
 
 function save() {
     // Form fields, see IDs above
+    var todos = document.querySelector('#todos').innerText;
 
-    var params = document.querySelector('#textfield').innerText;//.value;
+    var text = document.querySelector('#textfield').innerText;//.value;
+    
+    var calendar = document.querySelector('#calendar').innerText;
     // if (!params){
     //     params = "";
     // }
     
-    console.log("textfeld: ", params);
+    console.log("textfeld: ", text);
 
    // var text = JSON.stringify(params);
 
     var obj = new Object();
-    obj.text = params//text;
+    obj.todos = todos;
+    obj.text = text;
+    obj.calendar = calendar;
+
     //var jsonString = obj;
     var jsonString= JSON.stringify(obj);
     // const params = {
@@ -85,17 +91,97 @@ function read(){
 }
 
 
-function empty() {
+
+function update() {
+    // Form fields, see IDs above
+    var todos = document.querySelector('#todos').innerText;
+
+    var text = document.querySelector('#textfield').innerText;//.value;
+    
+    var calendar = document.querySelector('#calendar').innerText;
+
+
+    var obj = new Object();
+    obj.todos = todos;
+    obj.text = text;
+    obj.calendar = calendar;
+
+    //var jsonString = obj;
+    var jsonString= JSON.stringify(obj);
+
+
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', 'https://api.danzl.it/saveorganizer')
+    xhr.setRequestHeader('Content-type', 'application/json')
+    xhr.send(jsonString) // Make sure to stringify
+
+
+    xhr.onerror = function () {
+        console.log("** An error occurred during the transaction");
+        show_alert_text("CONNECTION ERROR");
+      };
+
+
+    xhr.onload = function () {
+        if (xhr.readyState === xhr.DONE) {
+            if (xhr.status === 200) {
+                console.log(xhr.response);
+
+
+                show_alert_text("SAVE SUCCESSFUL");
+
+            }
+        }
+    };
+
+}
+
+
+
+
+
+function reload() {
+
     console.log("Cleared");
     document.getElementById("textfield").innerText = "";
     
+    const xhr = new XMLHttpRequest()
+    var jsonString = new Object();
+    
+    xhr.open('POST', 'https://api.danzl.it/getorganizer')
+    xhr.setRequestHeader('Content-type', 'application/json')
+    xhr.send(JSON.stringify(jsonString))
+
+    xhr.onerror = function () {
+        console.log("** An error occurred during the transaction");
+        show_alert_text("CONNECTION ERROR");
+      };
+
+
+    xhr.onload = function () {
+        if (xhr.readyState === xhr.DONE) {
+            if (xhr.status === 200) {
+                console.log(xhr.response);
+
+                var response = JSON.parse(xhr.response)
+                document.getElementById("todos").innerText = response.todos;
+                document.getElementById("calendar").innerText = response.calendar;
+
+                // show_alert_text("SAVE SUCCESSFUL");
+
+            }
+        }
+    };
+
+
+
     }
 
 
-window.onload = empty;
+window.onload = reload;
 
 
-
+var fc = 0;
 
 var bg = 0;
 var sd = 0;
@@ -114,3 +200,24 @@ if (sd ==0){
 else {music.pause();
 sd = 0;}
 }
+
+
+
+function fokus(){
+    console.log("focustest");
+    if (fc == 0){
+        document.getElementById("left").style.visibility = "hidden";
+        document.getElementById("right").style.visibility = "hidden";
+        fc = 1;
+    }
+    else{
+        document.getElementById("left").style.visibility = "visible";
+        document.getElementById("right").style.visibility = "visible";
+        fc = 0;
+    
+    }
+    }
+
+
+
+    

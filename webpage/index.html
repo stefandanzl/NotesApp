@@ -10,18 +10,22 @@
 <body id="contento">
 <!--  rows="20" cols="100%"-->
 
+<div id="main">
 
-
-
-
+  <div id="left"><h1>TODO</h1>
+<div id="todos" contenteditable="true" spellcheck="false" class="droid"></div>
+</div>
   
   <div id="area">
    <!-- <form onsubmit="return false;" id="photosubmitform" enctype="multipart/form-data"></form>-->
  <!---- <textarea id="textfield" spellcheck="false" name="w3review"></textarea> -->
   <div id="textfield" contenteditable="true" spellcheck="false" class="droid" ></div>
   </div>
-  
-  
+  <div id="right"><h1>CALENDAR</h1>
+<div id="calendar" contenteditable="true" spellcheck="false" class="droid"></div>
+</div>
+
+  </div>
 
 <div id="footer">
   
@@ -29,11 +33,15 @@
 
 <div id="buttons">
 
- 
+ <button class="focusbtn" id="button" onclick="javascript:fokus()">FOCUS</button>
+
+  <button class="organizerbtn" id="button" onclick="update()">UPDATE</button>
+
+  <button class="musicbtn" id="button" class="button" onclick="javascript:playMusic()">MUSIC</button>
 
 <button class="savebtn" id="button" onclick="save()">SAVE</button>
 
-<button class="musicbtn" id="button" class="button" onclick="javascript:playMusic()">MUSIC</button>
+
 
 <button class="clearbtn" id="button" onclick="empty()">CLEAR</button>
 
