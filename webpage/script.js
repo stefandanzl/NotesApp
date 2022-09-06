@@ -1,4 +1,7 @@
+const { lookup } = require("dns");
 
+//const root = "https://api.danzl.it";
+const root = "http://localhost:8081";
 
 function show_alert_text(message){
 
@@ -23,6 +26,8 @@ function show_alert_text(message){
 
 
 function save() {
+   
+   if (loaded){
     // Form fields, see IDs above
     var todos = document.querySelector('#todos').innerText;
 
@@ -50,7 +55,7 @@ function save() {
     // }
 
     const xhr = new XMLHttpRequest()
-    xhr.open('POST', 'https://api.danzl.it/writenotes/')
+    xhr.open('POST', root + '/writenotes/')
     xhr.setRequestHeader('Content-type', 'application/json')
     xhr.send(jsonString) // Make sure to stringify
     // console.log("String:",JSON.stringify(params) )
@@ -83,7 +88,7 @@ function save() {
         }
     };
 
-}
+}}
 
 function read(){
 
@@ -94,6 +99,7 @@ function read(){
 
 function update() {
     // Form fields, see IDs above
+    if (loaded){
     var todos = document.querySelector('#todos').innerText;
 
     var text = document.querySelector('#textfield').innerText;//.value;
@@ -111,7 +117,7 @@ function update() {
 
 
     const xhr = new XMLHttpRequest()
-    xhr.open('POST', 'https://api.danzl.it/saveorganizer')
+    xhr.open('POST', root +'/saveorganizer')
     xhr.setRequestHeader('Content-type', 'application/json')
     xhr.send(jsonString) // Make sure to stringify
 
@@ -133,8 +139,20 @@ function update() {
             }
         }
     };
-
+    }
 }
+
+
+
+
+
+var prev_todos = "";
+var prev_text = "";
+var prev_calendar = "";
+
+
+
+
 
 
 
@@ -148,7 +166,7 @@ function reload() {
     const xhr = new XMLHttpRequest()
     var jsonString = new Object();
     
-    xhr.open('POST', 'https://api.danzl.it/getorganizer')
+    xhr.open('POST', root+'/getorganizer')
     xhr.setRequestHeader('Content-type', 'application/json')
     xhr.send(JSON.stringify(jsonString))
 
@@ -168,6 +186,11 @@ function reload() {
                 document.getElementById("calendar").innerText = response.calendar;
 
                 // show_alert_text("SAVE SUCCESSFUL");
+                loaded = true;
+
+                prev_todos = document.querySelector('#todos').innerText;
+                prev_text = document.querySelector('#textfield').innerText;
+                prev_calendar = document.querySelector('#calendar').innerText;
 
             }
         }
@@ -177,8 +200,19 @@ function reload() {
 
     }
 
+var loaded = false;
 
 window.onload = reload;
+
+
+document.addEventListener("visibilitychange", () => {
+    console.log(document.visibilityState);
+    save();
+    // Modify behavior…
+  })
+
+
+
 
 
 var fc = 0;
@@ -220,4 +254,58 @@ function fokus(){
 
 
 
+
+
+
+
+
+function checkChange(){
+
+
+
+
+}
+
+var doUpdate = false;
+
+
+function checkChange(){
+
+    console.log("CHECK CHANGE");
+
+    if (document.querySelector('#todos').innerText != prev_todos){doUpdate = true;}
+
+    if (document.querySelector('#todos').innerText != prev_text){doUpdate = true;}
     
+    if (document.querySelector('#calendar').innerText != prev_calendar){doUpdate = true;}
+    
+    if (doUpdate){
+        save();
+        update();
+        doUpdate = false;
+    }
+
+
+}
+
+
+// Infinity loop
+function loop(){
+
+
+checkChange();
+
+setTimeout(loop(),5000);
+
+
+
+// var todos = document.querySelector('#todos').innerText;
+// var text = document.querySelector('#textfield').innerText;
+// var calendar = document.querySelector('#calendar').innerText;
+
+
+
+
+}
+
+loop();
